@@ -1,33 +1,21 @@
 ﻿#include <iostream>
 #include <gl/glut.h>
+#include "Mesh.h"
 
 int cnt = 0;
 
-void display() {
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+const int winW = 500, winH = 500;
 
-	switch (cnt % 3) {
-	case 0:
-		glColor3f(1.0f, 0.0f, 0.0f);
-		break;
-	case 1:
-		glColor3f(0.0f, 1.0f, 0.0f);
-		break;
-	case 2:
-		glColor3f(0.0f, 0.0f, 1.0f);
-		break;
-	}
+Mesh mesh;
+void Display() {
+	glClearColor(1.0, 1.0, 1.0, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glBegin(GL_POLYGON);
-	glVertex2f(-0.5f, -0.5f);
-	glVertex2f(0.5f, -0.5f);
-	glVertex2f(0.5f, 0.5f);
-	glVertex2f(-0.5f, 0.5f);
-	glEnd();
+	glLoadIdentity();
 
-	//glFlush();
-	glFinish();
+	//mesh.Draw();
+
+	glFlush();
 }
 
 void myTimer(int value) {
@@ -36,16 +24,17 @@ void myTimer(int value) {
 	glutTimerFunc(1000, myTimer, 1);
 	glutPostRedisplay();
 }
-
 int main(int argc, char** argv) {
 	glutInit(&argc, argv);
-	glutInitWindowSize(500, 500);
+	glutInitWindowSize(winW, winH);
 	glutInitWindowPosition(100, 100);
 	glutCreateWindow("Init");
 
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	glutDisplayFunc(display);
+	//glutDisplayFunc(myDisplay);
 	glutTimerFunc(1000, myTimer, 1);
+	mesh.Read("among us.obj");
+	glutDisplayFunc(Display);
 	glutMainLoop();
 
 	return 0;
